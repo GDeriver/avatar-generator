@@ -1,89 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8"/>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>专属纪念头像生成器</title>
+<title>2025生日应援之你和GD的特别印记</title>
 <style>
   :root{--bg:#f7f7f7;--card:#fff;--accent:#ff3b30}
-  body{font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;background:var(--bg);margin:0;padding:24px;display:flex;align-items:flex-start;justify-content:center;min-height:100vh}
+  body{font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;background:var(--bg);margin:0;padding:24px;display:flex;align-items:flex-start;justify-content:center;min-height:100vh}
   .wrap{width:980px;max-width:95%;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
   h1{margin:0 0 10px;font-size:20px}
-  p.note{margin:6px 0;color:#666;font-size:14px}
   .row{display:flex;gap:12px;align-items:center;margin-top:8px}
-  input[type="text"]{padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;width:320px}
+  input[type="text"], input[type="file"]{padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px}
   button{padding:8px 12px;border-radius:6px;border:0;background:var(--accent);color:#fff;cursor:pointer}
   #canvas{border:1px solid #e2e2e2;margin-top:14px;max-width:100%}
-  .small{font-size:13px;color:#888}
-  #previewBox{display:flex;gap:20px;align-items:flex-start;margin-top:12px}
-  .left{flex:1;min-width:260px}
-  .right{width:360px}
-  @font-face{font-family:'MyFont';src: url('fonts/MyFont.ttf') format('truetype');font-weight:normal;font-style:normal;}
+  @font-face{
+    font-family:'MyFontCN';
+    src: url('fonts/MyFontCN4.ttf') format('truetype');
+  }
+  @font-face{
+    font-family:'MyFontEN';
+    src: url('fonts/MyFontEN2.ttf') format('truetype');
+  }
 </style>
-<!-- <style>
-  :root{--bg:#f7f7f7;--card:#fff;--accent:#ff3b30}
-
-  @font-face {
-      font-family: 'NotoSansSC';
-      src: url('fonts/YeZiGongChangShanHaiChaoFengSong-2.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-  }
-
-  @font-face {
-      font-family: 'Roboto';
-      src: url('fonts/Belianty-Elesha-2.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-  }
-
-  body{
-      font-family: 'NotoSansSC', 'Roboto', Arial, "Helvetica Neue", Helvetica, sans-serif;
-      background:var(--bg);
-      margin:0;
-      padding:24px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      min-height:100vh
-  }
-
-  .wrap{width:980px;max-width:95%;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
-  h1{margin:0 0 10px;font-size:20px}
-  p.note{margin:6px 0;color:#666;font-size:14px}
-  .row{display:flex;gap:12px;align-items:center;margin-top:8px}
-  input[type="text"]{padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;width:320px}
-  button{padding:8px 12px;border-radius:6px;border:0;background:var(--accent);color:#fff;cursor:pointer}
-  #canvas{border:1px solid #e2e2e2;margin-top:14px;max-width:100%}
-  .small{font-size:13px;color:#888}
-  #previewBox{display:flex;gap:20px;align-items:flex-start;margin-top:12px}
-  .left{flex:1;min-width:260px}
-  .right{width:360px}
-</style> -->
 </head>
 <body>
-  <div class="wrap">
-    <h1>专属纪念头像生成器（纯前端）</h1>
-    <p class="note">步骤：1) 输入订单号 → 验证成功后输入昵称 → 实时预览 → 下载PNG。若打开文件时发现“未找到订单”或画布空白，请用本地服务器运行（下面有说明）。</p>
+
+
+
+
+<div class="wrap">
+    <h1>你和GD的特别印记</h1>
+    <p class="note">步骤：1) 输入订单号 → 验证成功后输入昵称 → 实时预览 → 下载PNG。</p>
 
     <div id="step1">
-      <p><strong>1. 输入订单号以校验：</strong></p>
+      <p><strong>1. 输入订单号后五位以校验：</strong></p>
       <div class="row">
-        <input id="orderId" type="text" placeholder="例如：A20250001" />
+        <input id="orderId" type="text" placeholder="例如：00001" />
         <button id="checkBtn">校验订单</button>
       </div>
-      <p class="small">提示：订单号来自你购买记录（就是 `data/orders.json` 中的键）。</p>
+      <p class="small">提示：订单号来自你购买记录。</p>
     </div>
 
     <div id="step2" style="display:none;margin-top:10px;">
-      <p><strong>2. 输入昵称（会显示在头像上）：</strong></p>
+      <p><strong>2. 输入昵称：</strong></p>
       <div class="row">
         <input id="nickname" type="text" placeholder="昵称（只允许中英文和数字，最长12字符）" maxlength="12" />
         <button id="genBtn">生成并显示预览</button>
         <button id="downloadBtn" style="display:none;background:#333">下载PNG</button>
       </div>
+      <div class="row">
+        <label>上传贴纸：</label>
+        <input type="file" id="uploadSticker" accept="image/png, image/jpeg">
+      </div>
       <p class="small">如果想在输入过程中实时看到效果，请直接在输入框输入，预览会自动更新。</p>
     </div>
+
+
 
     <div id="previewBox">
       <div class="left">
@@ -91,59 +63,69 @@
       </div>
       <div class="right">
         <div id="info" style="font-size:14px;color:#444">
-          <p>当前序号：<span id="currentNumber">—</span></p>
+          <p>序号：<span id="currentNumber">—</span></p>
           <p>文件名示例：<span id="filenameExample">—</span></p>
-          <p class="small">调整：要改变序号/昵称在图上的位置或样式，请编辑 <code>index.html</code> 内的 <code>numberPos</code>、<code>namePos</code> 和字体设置。</p>
+          <!-- <p class="small">调整：要改变序号/昵称在图上的位置或样式，请编辑 <code>index.html</code> 内的 <code>numberPos</code>、<code>namePos</code> 和字体设置。</p> -->
         </div>
       </div>
     </div>
 
-    <p style="margin-top:12px" class="small">常见问题：若页面在双击打开（file://）时无法加载数据，请使用命令行运行 `python -m http.server 8000`（或用 VSCode Live Server）。</p>
-  </div>
+    <!-- <p style="margin-top:12px" class="small">常见问题：若页面在双击打开（file://）时无法加载数据，请使用命令行运行 `python -m http.server 8000`（或用 VSCode Live Server）。</p> -->
+  
+  <!-- <div class="row">
+    <label>昵称：</label>
+    <input type="text" id="nickname" placeholder="输入你的昵称">
+  </div> -->
+
+</div>
+
 
 <script>
 (async ()=> {
-  // ---------- 配置（方便你改位置/样式） ----------
-  const canvasSize = { w:1080, h:1080 };
-  const numberPos = { x: 200, y: 850, font: 'bold 60px MyFont', color: '#7DC8FF' };
-  const namePos   = { x: 200, y: 950, font: 'bold 60px MyFont', color: '#FDABD6' };
-  const allowedNameRegex = /^[\u4e00-\u9fa5A-Za-z0-9]+$/; // 允许中英与数字
-  // -----------------------------------------------
+  // ---------- 配置 ----------
+  const canvasSize = { w:5906, h:7087 };
+  const numberPos = { x: 3800, y: 5900, font: '450px MyFontEN', color: '#FFFFFF' };
+  const namePos   = { x: 1220, y: 5200, font: ' 300px MyFontCN', color: '#FFFFFF' };
+/*   const numberPos = { x: 200, y: 5240, font: '450px MyFontEN', color: '#FFFFFF' };
+  const namePos   = { x: 4590, y: 5600, font: ' 300px MyFontCN', color: '#FFFFFF' }; */
+  const allowedNameRegex = /^[\u4e00-\u9fa5A-Za-z0-9]+$/;
 
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
-  // 载入订单表（提前加载）
+  // ---------- 贴纸相关 ----------
+  let stickerImg = null;
+  let stickerX = 350, stickerY = 50, stickerW = 200, stickerH = 200;
+  const resizeHandleSize = 20;
+  let dragging = false, resizing = false;
+  let dragOffsetX = 0, dragOffsetY = 0;
+
+  // 载入订单表
   let orders = null;
   async function loadOrders() {
     try {
       const resp = await fetch('data/orders.json', {cache: "no-store"});
       if (!resp.ok) throw new Error('fetch fail');
       orders = await resp.json();
-      console.log('orders loaded, total keys:', Object.keys(orders).length);
     } catch (e) {
-      alert('加载订单数据失败。注意：如果你直接双击打开 index.html (file://)，浏览器会阻止 fetch。本地测试请用本地服务器运行（见下方提示）。\n\n命令示例：在项目目录运行：\npython -m http.server 8000\n然后在浏览器打开 http://localhost:8000');
+      alert('加载订单数据失败，请用本地服务器运行');
       console.error(e);
     }
   }
   await loadOrders();
 
-  // 等待字体加载完再绘图（避免刚生成时字体未生效）
   async function waitFonts() {
     if (document.fonts && document.fonts.ready) {
-      try { await document.fonts.ready; } catch(e){ /*ignore*/ }
+      try { await document.fonts.ready; } catch(e){}
     } else {
-      // 旧浏览器：简短延时
       await new Promise(r=>setTimeout(r,300));
     }
   }
 
-  // 绘制函数（底图 + 序号 + 名称）
+  // 绘制头像
   async function draw(number, name) {
     if (!orders) return;
-    // 等待字体
     await waitFonts();
-    // 加载底图
     return new Promise((resolve,reject)=>{
       const img = new Image();
       img.onload = () => {
@@ -158,18 +140,34 @@
         ctx.fillText(`No.${number}`, numberPos.x, numberPos.y);
         // 昵称
         ctx.fillStyle = namePos.color;
-        ctx.font = namePos.font;
-        ctx.fillText(name, namePos.x, namePos.y);
+        let nickname = document.getElementById('nickname').value;
+/*         if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
+          ctx.font = '150px MyFontCN';
+        } else {
+          ctx.font = '300px MyFontEN';
+        } */
+
+        ctx.font = '180px MyFontCN';
+        ctx.fillText(`${name}的`, namePos.x, namePos.y);
+        //ctx.fillText(`${name}`, namePos.x, namePos.y);
+        // 绘制贴纸
+        if (stickerImg) {
+          ctx.drawImage(stickerImg, stickerX, stickerY, stickerW, stickerH);
+          // 绘制缩放手柄
+          ctx.fillStyle = 'rgba(0,0,0,0.5)';
+          ctx.fillRect(stickerX + stickerW - resizeHandleSize/2,
+                       stickerY + stickerH - resizeHandleSize/2,
+                       resizeHandleSize, resizeHandleSize);
+        }
         canvas.style.display = 'block';
         resolve();
       };
-      img.onerror = (e)=> reject(e);
-      img.src = 'images/template.png';
-      // 如果你模板很大，加载可能需要一点时间
+      img.onerror = reject;
+      img.src = 'images/template3.png';
     });
   }
 
-  // 元素绑定
+  // 元素
   const orderInput = document.getElementById('orderId');
   const checkBtn = document.getElementById('checkBtn');
   const step2 = document.getElementById('step2');
@@ -178,33 +176,26 @@
   const downBtn = document.getElementById('downloadBtn');
   const currentNumberSpan = document.getElementById('currentNumber');
   const filenameExample = document.getElementById('filenameExample');
+  const uploadSticker = document.getElementById('uploadSticker');
 
   let currentNumber = null;
 
   checkBtn.addEventListener('click', ()=>{
     const id = (orderInput.value||'').trim();
     if (!id) { alert('请输入订单号'); return; }
-    if (!orders) { alert('订单数据未加载，请用本地服务器运行并刷新页面'); return; }
-    if (!orders[id]) { alert('未找到该订单号，请检查 orders.json 是否已包含此订单号'); return; }
+    if (!orders) { alert('订单数据未加载'); return; }
+    if (!orders[id]) { alert('未找到该订单号'); return; }
     currentNumber = orders[id];
     currentNumberSpan.textContent = currentNumber;
     filenameExample.textContent = `No_${currentNumber}_你的昵称.png`;
     step2.style.display = 'block';
     nicknameInput.focus();
-    // 生成一次默认预览（昵称为空则显示占位）
     draw(currentNumber, nicknameInput.value || '昵称');
   });
 
-  // 实时预览（输入时自动更新）
   nicknameInput.addEventListener('input', async ()=>{
     const name = nicknameInput.value.trim();
     if (!currentNumber) return;
-    if (name && !allowedNameRegex.test(name)) {
-      // 不允许的字符：不自动绘制（但不阻塞输入）
-      // 也可以给视觉提示，这里用 console
-      console.warn('昵称包含不允许字符');
-    }
-    // 绘制时如果为空，用占位
     await draw(currentNumber, name || '昵称');
   });
 
@@ -223,15 +214,75 @@
     const link = document.createElement('a');
     const safeName = name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g,'_');
     link.download = `No_${currentNumber}_${safeName}.png`;
-    try {
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } catch (e) {
-      alert('导出失败（可能是跨域问题），请确认 template.png 与本页面在同一域/同一服务器下运行。');
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  // 上传贴纸
+  uploadSticker.addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev=>{
+        stickerImg = new Image();
+        stickerImg.onload = ()=> draw(currentNumber, nicknameInput.value || '昵称');
+        stickerImg.src = ev.target.result;
+        // 初始位置大小
+        stickerX = 300; stickerY = 300; stickerW = 200; stickerH = 200;
+      };
+      reader.readAsDataURL(file);
     }
+  });
+
+  // 贴纸拖拽缩放事件
+  function isOnSticker(mx, my) {
+    return mx >= stickerX && mx <= stickerX+stickerW && my >= stickerY && my <= stickerY+stickerH;
+  }
+  function isOnResizeHandle(mx,my) {
+    return mx >= stickerX+stickerW-resizeHandleSize &&
+           mx <= stickerX+stickerW+resizeHandleSize &&
+           my >= stickerY+stickerH-resizeHandleSize &&
+           my <= stickerY+stickerH+resizeHandleSize;
+  }
+  canvas.addEventListener('mousedown', e=>{
+    if (!stickerImg) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    if (isOnResizeHandle(mx,my)) {
+      resizing = true;
+    } else if (isOnSticker(mx,my)) {
+      dragging = true;
+      dragOffsetX = mx - stickerX;
+      dragOffsetY = my - stickerY;
+    }
+  });
+  canvas.addEventListener('mousemove', e=>{
+    if (!stickerImg) return;
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    if (dragging) {
+      stickerX = mx - dragOffsetX;
+      stickerY = my - dragOffsetY;
+      draw(currentNumber, nicknameInput.value || '昵称');
+    } else if (resizing) {
+      stickerW = Math.max(20, mx - stickerX);
+      stickerH = Math.max(20, my - stickerY);
+      draw(currentNumber, nicknameInput.value || '昵称');
+    }
+  });
+  canvas.addEventListener('mouseup', ()=>{
+    dragging = false;
+    resizing = false;
+  });
+  canvas.addEventListener('mouseleave', ()=>{
+    dragging = false;
+    resizing = false;
   });
 
 })();
 </script>
+
 </body>
 </html>
