@@ -3,14 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>2025生日应援之你和GD的特别印记</title>
+<title>2025生日应援之我与GD的特别印记</title>
 <style>
   :root{--bg:#f7f7f7;--card:#fff;--accent:#ff3b30}
+
+
+  :root {
+  --bg: #e0f1ff;
+  /* --card: #daf5ff; */
+  --card: #feeffd;
+  --accent: #42b6f9; /* #ffd2fe */
+  }
+  body {
+    color: #012854;
+  }
+
   body{font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;background:var(--bg);margin:0;padding:24px;display:flex;align-items:flex-start;justify-content:center;min-height:100vh}
   .wrap{width:980px;max-width:95%;background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+
+/*   .wrap {
+  border: 3px solid transparent;
+  border-image: linear-gradient(45deg, #fdc9ff, #94d0f8) 1;
+  } */
+
+/*   body {
+    background: url('images/bg3.jpg') no-repeat center center fixed;
+    background-size: cover;
+  } */
+
+  .falling {
+    color: pink; /* 自定义下落颜色 */
+  }
+  #orderId {
+    width: 300px;
+  }
+  #nickname {
+    width: 300px;
+  }
+
   h1{margin:0 0 10px;font-size:20px}
   .row{display:flex;gap:12px;align-items:center;margin-top:8px}
-  input[type="text"], input[type="file"]{padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px}
+  input[type="text"], input[type="file"]{padding:8px 10px;font-size:15px;border:1px solid #dddddd;border-radius:6px}
   button{padding:8px 12px;border-radius:6px;border:0;background:var(--accent);color:#fff;cursor:pointer}
   #canvas{border:1px solid #e2e2e2;margin-top:14px;max-width:100%}
   @font-face{
@@ -25,33 +58,34 @@
 </head>
 <body>
 
+<img src="images/banner.png" alt="banner" style="max-width:20%; border-radius:12px; margin-bottom:20px;">
 
 
 
 <div class="wrap">
-    <h1>你和GD的特别印记</h1>
-    <p class="note">步骤：1) 输入订单号 → 验证成功后输入昵称 → 实时预览 → 下载PNG。</p>
+    <h1>♥我与G-Dragon的特别印记♥</h1>
+    <p class="note">步骤：输入订单号查询专属生日应援编号 → 查询成功后输入昵称 → 实时预览 → 下载PNG。</p>
 
     <div id="step1">
-      <p><strong>1. 输入订单号后五位以校验：</strong></p>
+      <p><strong>1. 查询我的GD生日应援编号：</strong></p>
       <div class="row">
-        <input id="orderId" type="text" placeholder="例如：00001" />
-        <button id="checkBtn">校验订单</button>
+        <input id="orderId" type="text" placeholder="输入礼包的订单号哟ξ( ✿＞◡❛)" />
+        <button id="checkBtn">查询我的编号</button>
       </div>
-      <p class="small">提示：订单号来自你购买记录。</p>
+      <p class="small">注：订单号来自2025双城应援礼包购买记录。</p>
     </div>
 
     <div id="step2" style="display:none;margin-top:10px;">
       <p><strong>2. 输入昵称：</strong></p>
       <div class="row">
-        <input id="nickname" type="text" placeholder="昵称（只允许中英文和数字，最长12字符）" maxlength="12" />
+        <input id="nickname" type="text" placeholder="12字符以内的中英文或数字✧*｡٩(ˊᗜˋ*)و✧*｡" maxlength="12" />
         <button id="genBtn">生成并显示预览</button>
         <button id="downloadBtn" style="display:none;background:#333">下载PNG</button>
       </div>
-      <div class="row">
-        <label>上传贴纸：</label>
+<!--       <div class="row">
+        <label>上传贴纸（可选）：</label>
         <input type="file" id="uploadSticker" accept="image/png, image/jpeg">
-      </div>
+      </div> -->
       <p class="small">如果想在输入过程中实时看到效果，请直接在输入框输入，预览会自动更新。</p>
     </div>
 
@@ -63,19 +97,12 @@
       </div>
       <div class="right">
         <div id="info" style="font-size:14px;color:#444">
-          <p>序号：<span id="currentNumber">—</span></p>
-          <p>文件名示例：<span id="filenameExample">—</span></p>
+          <p>我的编号：<span id="currentNumber">—</span></p>
+          <p>文件下载示例：<span id="filenameExample">—</span></p>
           <!-- <p class="small">调整：要改变序号/昵称在图上的位置或样式，请编辑 <code>index.html</code> 内的 <code>numberPos</code>、<code>namePos</code> 和字体设置。</p> -->
         </div>
       </div>
     </div>
-
-    <!-- <p style="margin-top:12px" class="small">常见问题：若页面在双击打开（file://）时无法加载数据，请使用命令行运行 `python -m http.server 8000`（或用 VSCode Live Server）。</p> -->
-  
-  <!-- <div class="row">
-    <label>昵称：</label>
-    <input type="text" id="nickname" placeholder="输入你的昵称">
-  </div> -->
 
 </div>
 
@@ -85,9 +112,10 @@
   // ---------- 配置 ----------
   const canvasSize = { w:5906, h:7087 };
   const numberPos = { x: 3800, y: 5900, font: '450px MyFontEN', color: '#FFFFFF' };
-  const namePos   = { x: 1220, y: 5200, font: ' 300px MyFontCN', color: '#FFFFFF' };
+  //const namePos   = { x: 1790, y: 4700, font: ' 300px MyFontCN', color: '#FFFFFF' };
+  const namePos   = { x: 1990, y: 5150, font: ' 300px MyFontCN', color: '#FFFFFF' };
 /*   const numberPos = { x: 200, y: 5240, font: '450px MyFontEN', color: '#FFFFFF' };
-  const namePos   = { x: 4590, y: 5600, font: ' 300px MyFontCN', color: '#FFFFFF' }; */
+  const namePos   = { x: 4590, y: 5600, font: ' 300px MyFontCN', color: '#FFFFFF' }; 1920 5200*/
   const allowedNameRegex = /^[\u4e00-\u9fa5A-Za-z0-9]+$/;
 
   const canvas = document.getElementById('canvas');
@@ -96,7 +124,7 @@
   // ---------- 贴纸相关 ----------
   let stickerImg = null;
   let stickerX = 350, stickerY = 50, stickerW = 200, stickerH = 200;
-  const resizeHandleSize = 20;
+  const resizeHandleSize = 100;
   let dragging = false, resizing = false;
   let dragOffsetX = 0, dragOffsetY = 0;
 
@@ -141,14 +169,14 @@
         // 昵称
         ctx.fillStyle = namePos.color;
         let nickname = document.getElementById('nickname').value;
-/*         if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
-          ctx.font = '150px MyFontCN';
+        if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
+          ctx.font = '240px MyFontCN';
         } else {
-          ctx.font = '300px MyFontEN';
-        } */
-
-        ctx.font = '180px MyFontCN';
-        ctx.fillText(`${name}的`, namePos.x, namePos.y);
+          ctx.font = '220px MyFontCN';
+        } 
+        ctx.textAlign = 'right';
+        //ctx.font = '240px MyFontCN';
+        ctx.fillText(`「${name}」`, namePos.x, namePos.y);
         //ctx.fillText(`${name}`, namePos.x, namePos.y);
         // 绘制贴纸
         if (stickerImg) {
@@ -163,7 +191,7 @@
         resolve();
       };
       img.onerror = reject;
-      img.src = 'images/template3.png';
+      img.src = 'images/template7.png';
     });
   }
 
@@ -228,7 +256,7 @@
         stickerImg.onload = ()=> draw(currentNumber, nicknameInput.value || '昵称');
         stickerImg.src = ev.target.result;
         // 初始位置大小
-        stickerX = 300; stickerY = 300; stickerW = 200; stickerH = 200;
+        stickerX = 500; stickerY = 500; stickerW = 600; stickerH = 600;
       };
       reader.readAsDataURL(file);
     }
@@ -284,5 +312,68 @@
 })();
 </script>
 
+
+<style>
+  .falling {
+    position: fixed;
+    top: -50px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0.8;
+    }
+  }
+</style>
+
+<script>
+  function createFallingEmoji() {
+    const emoji = ["🌸","❀","✿","❤","💕"]; 
+    //  "❤","★","✨" ,"🎉","🎊","🎈","🎁","🎀","🎂","🧁","🍩","🍮","🍰","🌟","⭐","💫",""
+    // ,"🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"
+    const el = document.createElement("div");
+    el.className = "falling";
+    el.innerText = emoji[Math.floor(Math.random() * emoji.length)];
+    
+    // 随机位置/大小/动画时长
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.fontSize = (10 + Math.random() * 20) + "px";
+    el.style.animationDuration = (6 + Math.random() * 5) + "s";
+    
+    document.body.appendChild(el);
+    
+    // 动画结束后清理元素
+    setTimeout(() => {
+      el.remove();
+    }, 10000);
+  }
+
+  // 每隔300ms生成一个
+  setInterval(createFallingEmoji, 300);
+</script>
 </body>
 </html>
+
+
+<footer style="
+  position: fixed;   /* 固定在页面底部 */
+  bottom: 0;         /* 底部对齐 */
+  left: 0;           /* 左边界对齐 */
+  width: 100%;       /* 占满整个宽度 */
+  text-align: center;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #696969;
+  line-height: 2;
+  background: rgba(255, 239, 250, 0.8); /* 可选：半透明背景 */
+  z-index: 1000;     /* 确保覆盖在动画上面 */
+">
+  ✨💎 权志龙 2025 生日应援 · 我和GD的特别印记 💎✨<br>
+  ❤ 出品：权志龙_FAMHOME ❤<br>
+  🛠️ 开发：霜季Gliz 🛠️
+</footer>
+
