@@ -324,9 +324,121 @@
 
 })();
 </script>
+<!-- 
+<style>
+  .falling {
+    position: fixed;
+    top: -50px;
+    pointer-events: none;
+    will-change: transform;
+    user-select: none;
+  }
+</style>
+
+<script>
+  function createFallingEmoji() {
+    const emoji = ["🌸","❀","✿","❤","💕","🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"]; 
+    const images = ["images/fall.png", "images/fall.png", "images/fall2.png", "images/fall3.png", "images/fall4.png", "images/fall5.png", "images/fall6.png", "images/fall7.png"];
+
+    const el = document.createElement("div");
+    el.className = "falling";
+
+    // 随机选择emoji或图片
+    if (Math.random() < 0.3) {
+      const img = document.createElement("img");
+      img.src = images[Math.floor(Math.random() * images.length)];
+      img.style.width = (20 + Math.random() * 30) + "px";
+      el.appendChild(img);
+    } else {
+      el.innerText = emoji[Math.floor(Math.random() * emoji.length)];
+      el.style.fontSize = (10 + Math.random() * 20) + "px";
+    }
+
+    // 初始位置
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.top = "-50px";
+    document.body.appendChild(el);
+
+    // 模拟自由落体
+    let pos = -50;
+    const ground = window.innerHeight - 50 - Math.random() * 30; // 随机高度，避免全都一排
+    const speed = 2 + Math.random() * 3; // 下落速度
+    const timer = setInterval(() => {
+      pos += speed;
+      if (pos >= ground) {
+        pos = ground;
+        el.style.top = pos + "px";
+        clearInterval(timer);
+
+        // 停留一会儿再消失
+        setTimeout(() => {
+          el.style.transition = "opacity 1s";
+          el.style.opacity = 0;
+          setTimeout(() => el.remove(), 1000);
+        }, 4000); // 4秒后消失
+      } else {
+        el.style.top = pos + "px";
+      }
+    }, 20);
+  }
+
+  // 每隔300ms生成一个
+  setInterval(createFallingEmoji, 300);
+</script> -->
 
 
 <style>
+  .falling {
+    position: fixed;
+    top: -50px;
+    animation: fall linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0.8;
+    }
+  }
+</style>
+
+<script>
+  function createFallingEmoji() {
+    const emoji = ["🌸","❀","✿","❤","💕","🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"]; 
+    const images = ["images/fall.png", "images/fall.png", "images/fall.png", "images/fall.png", "images/fall2.png", "images/fall3.png", "images/fall4.png", "images/fall5.png", "images/fall6.png", "images/fall7.png"]; // 你的 PNG 路径，可以放多个
+
+    const el = document.createElement("div");
+    el.className = "falling";
+
+    if (Math.random() < 0.5) {
+      // 30% 概率用 PNG
+      const img = document.createElement("img");
+      img.src = images[Math.floor(Math.random() * images.length)];
+      img.style.width = (20 + Math.random() * 30) + "px"; // 随机大小
+      el.appendChild(img);
+    } else {
+      // 70% 概率用 emoji
+      el.innerText = emoji[Math.floor(Math.random() * emoji.length)];
+      el.style.fontSize = (10 + Math.random() * 20) + "px";
+    }
+
+    // 随机位置 & 动画时长
+    el.style.left = Math.random() * window.innerWidth + "px";
+    el.style.animationDuration = (6 + Math.random() * 5) + "s";
+
+    document.body.appendChild(el);
+
+    // 动画结束后清理元素
+    setTimeout(() => el.remove(), 10000);
+  }
+
+  // 每隔300ms生成一个
+  setInterval(createFallingEmoji, 100);
+</script> 
+
+
+<!-- <style>
   .falling {
     position: fixed;
     top: -50px;
@@ -367,6 +479,8 @@
 
   // 每隔300ms生成一个
   setInterval(createFallingEmoji, 300);
+ -->
+
 </script>
 </body>
 </html>
