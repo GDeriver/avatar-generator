@@ -106,16 +106,23 @@
 
 </div>
 
+<canvas id="canvas" style="max-width: 800px; height: auto;"></canvas>
 
 <script>
 (async ()=> {
   // ---------- 配置 ----------
-  const canvasSize = { w:5906, h:7087 };
+/*   const canvasSize = { w:5906, h:7087 };
   const numberPos = { x: 3800, y: 5900, font: '450px MyFontEN', color: '#FFFFFF' };
   //const namePos   = { x: 1790, y: 4700, font: ' 300px MyFontCN', color: '#FFFFFF' };
   const namePos   = { x: 1990, y: 5150, font: ' 300px MyFontCN', color: '#FFFFFF' };
 /*   const numberPos = { x: 200, y: 5240, font: '450px MyFontEN', color: '#FFFFFF' };
-  const namePos   = { x: 4590, y: 5600, font: ' 300px MyFontCN', color: '#FFFFFF' }; 1920 5200*/
+  const namePos   = { x: 4590, y: 5600, font: ' 300px MyFontCN', color: '#FFFFFF' }; 1920 5200*/ 
+
+  const canvasSize = { w: 2000, h: 2400 };  // 缩小版
+  const numberPos = { x: 1280, y: 2000, font: '150px MyFontEN', color: '#FFFFFF' };
+  const namePos   = { x: 670,  y: 1745, font: '100px MyFontCN', color: '#FFFFFF' };
+
+
   const allowedNameRegex = /^[\u4e00-\u9fa5A-Za-z0-9]+$/;
 
   const canvas = document.getElementById('canvas');
@@ -169,10 +176,16 @@
         // 昵称
         ctx.fillStyle = namePos.color;
         let nickname = document.getElementById('nickname').value;
-        if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
+/*         if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
           ctx.font = '240px MyFontCN';
         } else {
           ctx.font = '220px MyFontCN';
+        }  */
+
+        if (/^[\u4e00-\u9fa5]+$/.test(nickname)) {
+          ctx.font = '80px MyFontCN';
+        } else {
+          ctx.font = '73px MyFontCN';
         } 
         ctx.textAlign = 'right';
         //ctx.font = '240px MyFontCN';
@@ -332,9 +345,9 @@
 
 <script>
   function createFallingEmoji() {
-    const emoji = ["🌸","❀","✿","❤","💕"]; 
+    const emoji = ["🌸","❀","✿","❤","💕","🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"]; 
     //  "❤","★","✨" ,"🎉","🎊","🎈","🎁","🎀","🎂","🧁","🍩","🍮","🍰","🌟","⭐","💫",""
-    // ,"🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"
+    // 
     const el = document.createElement("div");
     el.className = "falling";
     el.innerText = emoji[Math.floor(Math.random() * emoji.length)];
