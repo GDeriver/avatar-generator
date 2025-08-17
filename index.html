@@ -404,22 +404,32 @@
 
 <script>
   function createFallingEmoji() {
-    const emoji = ["🌸","❀","✿","❤","💕","🌹","💗","💝","🌼","🎉","🎊","🎈","🎁","🎀","🎂","🍰","🌟","⭐","💫"]; 
-    const images = ["images/fall.png", "images/fall.png", "images/fall.png", "images/fall.png", "images/fall2.png", "images/fall3.png", "images/fall4.png", "images/fall5.png", "images/fall6.png", "images/fall7.png"]; // 你的 PNG 路径，可以放多个
-
+    const emoji = ["🌸","❀","✿","❤","🌹","💗","🌼","🎉","🎊","🎈","🎂","🍰","🌟","⭐"]; 
+    const images = ["images/fall.png"]; // PNG 路径，可以放多个 ,"🎁","💕","💝","💫","🎀"
+     const images1 = ["images/fall.png", "images/fall2.png", "images/fall5.png", "images/fall6.png", "images/fall7.png"];
+    // , "images/fall.png", "images/fall.png", "images/fall.png", "images/fall3.png", "images/fall4.png"
     const el = document.createElement("div");
     el.className = "falling";
 
-    if (Math.random() < 0.5) {
-      // 30% 概率用 PNG
+    if (Math.random() < 0.7) {
+      // 70% 概率用 PNG
       const img = document.createElement("img");
       img.src = images[Math.floor(Math.random() * images.length)];
       img.style.width = (20 + Math.random() * 30) + "px"; // 随机大小
       el.appendChild(img);
     } else {
-      // 70% 概率用 emoji
+      // 30% 概率用 emoji
+      if (Math.random() < 0.5) {
+      // 70% 概率用 PNG
+      const img = document.createElement("img");
+      img.src = images1[Math.floor(Math.random() * images1.length)];
+      img.style.width = (20 + Math.random() * 30) + "px"; // 随机大小
+      el.appendChild(img);
+      }else{
       el.innerText = emoji[Math.floor(Math.random() * emoji.length)];
       el.style.fontSize = (10 + Math.random() * 20) + "px";
+      }
+     
     }
 
     // 随机位置 & 动画时长
@@ -433,7 +443,7 @@
   }
 
   // 每隔300ms生成一个
-  setInterval(createFallingEmoji, 100);
+  setInterval(createFallingEmoji, 50);
 </script> 
 
 
